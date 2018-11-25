@@ -57,6 +57,7 @@ int called(struct Students x){
   // takes contents of %ebp and stores in stackptr
   asm("movl %%esp, %0;": "=r"(stackptr));
 
+  //This value is supposed to be the same value as the value for basepointer main in above
   printf("The value of basepointer address is: \n");
   printf("%p\n", baseptr);
 
