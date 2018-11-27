@@ -30,6 +30,13 @@ int main() {
   printf("size of t1.bDay is:\t %lu\n", sizeof(t1.bDay));
   printf("Contents of t1.Bday is:\t %s\n", t1.bDay);
 
+  printf("---New Testing---\n");
+  char result[50];
+  float num = 23.34;
+  sprintf(result, "%f", num);
+  printf("The int for num is: %f\n", num);
+  printf("The string for the num is %s\n", result);
+
 
   return 0;
 }
