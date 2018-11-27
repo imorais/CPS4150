@@ -9,6 +9,7 @@
 
 
 #include<stdio.h>
+#include<stdlib.h> //atoi()
 
 struct Students {
    int id;
@@ -21,6 +22,7 @@ struct Students {
 
 // This must come after the Students struct is created or else it doesn't work.
 int called(struct Students x);
+int toBin(int dno);
 
 int main() {
 
@@ -32,8 +34,14 @@ int main() {
     void *baseptr;
     // takes contents of %ebp and stores in baseptr
     asm("movl %%ebp, %0;": "=r"(baseptr));
-
     printf("The value of basepointer main:\t %p\n", baseptr);
+
+    //Extra Credit
+    void *stackptr;
+    // takes contents of %esp and stores in stackptr
+    asm("movl %%esp, %0;": "=r"(stackptr));
+    printf("(?)-->The value of stackpointer is:\t %p\n", stackptr);
+
     // print student info
     printf("ID:\t\t %d\n", student.id);
     printf("First Name:\t %s\n", student.fName);
@@ -60,12 +68,6 @@ int called(struct Students x){
 
   printf("The value of basepointer print is:\t %p\n", baseptr);
 
-  //Extra Credit
-  void *stackptr;
-  // takes contents of %esp and stores in stackptr
-  asm("movl %%esp, %0;": "=r"(stackptr));
-  printf("(?)-->The value of stackpointer print is:\t %p\n", stackptr);
-
   void *baseptr2;
   // takes contents of %ebp and stores in baseptr2
   asm("movl %%ebp, %0;": "=r"(baseptr2));
@@ -85,26 +87,49 @@ int called(struct Students x){
   printf("The address of my birth day and month is at address:\t %p\n", &x.bDay);
   printf("The integer value of my birth day and month is:\t\t %d\n", 6666);
 
-  printf("\n\n");
-  printf("---Byte by Byte Info---\n");
+  printf("\n");
+  printf("----BYTE BY BYTE INFO----\n");
   // Finds the decimal value of each byte in x.bDay
-  printf("bDay byte by byte info\n");
+  printf("--bDay--\n");
+
+  char numsAsChar[] = "";
   for (int i = 0; i < sizeof(x.bDay); ++i) {
-  // Convert to unsigned char* because a char is 1 byte in size.
-  // That is guaranteed by the standard.
-  // Note that is it NOT required to be 8 bits in size.
-  unsigned char byte = *((unsigned char *)&x.bDay + i);
-  printf("Byte %d = %u\n", i, (unsigned)byte);
-}
-// Finds the decimal value of each byte in x.bMonth
-printf("bMonth byte by byte info\n");
-for (int i = 0; i < sizeof(x.bMonth); ++i) {
-// Convert to unsigned char* because a char is 1 byte in size.
-// That is guaranteed by the standard.
-// Note that is it NOT required to be 8 bits in size.
-unsigned char byte = *((unsigned char *)&x.bMonth + i);
-printf("Byte %d = %u\n", i, (unsigned)byte);
-}
+    // Convert to unsigned char* because a char is 1 byte in size.
+    // That is guaranteed by the standard.
+    // Note that is it NOT required to be 8 bits in size.
+    unsigned char byte = *((unsigned char *)&x.bDay + i);
+    printf("Byte %d = %u\n", i, (unsigned)byte);
+    numsAsChar[i] = byte;
+    printf("->Char representaion of what is at byte %d: %c\n", i, numsAsChar[i]);
+    int x;
+    // Converts the character into an int and stores it in x
+    x = atoi(&numsAsChar[i]);
+    printf("->Decimal representaion of what is at byte %d: %d\n", i, x);
+    printf("->Binary representaion of what is at byte %d: %04d\n", i, toBin(x));
+  }
+  // Finds the decimal value of each byte in x.bMonth
+  printf("--bMonth--\n");
+  for (int i = 0; i < sizeof(x.bMonth); ++i) {
+    // Convert to unsigned char* because a char is 1 byte in size.
+    // That is guaranteed by the standard.
+    // Note that is it NOT required to be 8 bits in size.
+    unsigned char byte = *((unsigned char *)&x.bMonth + i);
+    printf("Byte %d = %u\n", i, (unsigned)byte);
+  }
 
   return 0;
+}
+
+// Convert into to binary
+int toBin(int dno)
+{
+    int bno=0,remainder,f=1;
+    while(dno != 0)
+    {
+         remainder = dno % 2;
+         bno = bno + remainder * f;
+         f = f * 10;
+         dno = dno / 2;
+    }
+    return bno;
 }
