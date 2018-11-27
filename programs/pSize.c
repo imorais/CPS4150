@@ -12,9 +12,9 @@ struct testing {
    char bYear[5];
 };
 
-struct testing t1 = {12345, "John", "Smith", "06", "07", "1998"};
-
 int main() {
+
+  struct testing t1 = {12345, "John", "Smith", "06", "07", "1998"};
 
   char x[] = "nn";
   char *y = "gg";
