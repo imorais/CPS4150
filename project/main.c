@@ -24,14 +24,16 @@ int called(struct Students x);
 
 int main() {
 
+    // testing purposes
+    printf("---MAIN---\n");
+
     struct Students student = {12345, "Isabel", "Morais", "25", "06", "1997"};
 
     void *baseptr;
     // takes contents of %ebp and stores in baseptr
     asm("movl %%ebp, %0;": "=r"(baseptr));
 
-    printf("The value of basepointer main: \n");
-    printf("%p\n", baseptr);
+    printf("The value of basepointer main:\t %p\n", baseptr);
     // print student info
     printf("ID:\t\t %d\n", student.id);
     printf("First Name:\t %s\n", student.fName);
@@ -39,6 +41,8 @@ int main() {
     printf("Birth Day:\t %s\n", student.bDay);
     printf("Birth Month:\t %s\n", student.bMonth);
     printf("Birth Year:\t %s\n", student.bYear);
+    printf("-->Address of main is %p\n", main);
+    printf("-->Address of called is %p\n", called);
 
     called(student);
 
@@ -46,22 +50,32 @@ int main() {
 }
 
 int called(struct Students x){
+
+  // testing purposes
+  printf("\n---CALLED---\n");
+
   void *baseptr;
   // takes contents of %ebp and stores in baseptr
   asm("movl %%ebp, %0;": "=r"(baseptr));
 
-  printf("The value of basepointer print is: \n");
-  printf("%p\n", baseptr);
+  printf("The value of basepointer print is:\t %p\n", baseptr);
 
+  //Extra Credit
   void *stackptr;
-  // takes contents of %ebp and stores in stackptr
+  // takes contents of %esp and stores in stackptr
   asm("movl %%esp, %0;": "=r"(stackptr));
+  printf("(?)-->The value of stackpointer print is:\t %p\n", stackptr);
+
+  void *baseptr2;
+  // takes contents of %ebp and stores in baseptr2
+  asm("movl %%ebp, %0;": "=r"(baseptr2));
 
   //This value is supposed to be the same value as the value for basepointer main in above
-  printf("The value of basepointer address is: \n");
-  printf("%p\n", baseptr);
+  printf("The value of basepointer address is:\t %p\n", baseptr2);
 
-  printf("-----This is a test!-----\n");
+  printf("What is in baseptr:\t\t\t %p\n", main);
+
+  printf("-----Student Info-----\n");
   printf("Address of id:\t\t %p\n", &x.id);
   printf("Address of fName:\t %p\n", &x.fName);
   printf("Address of lName:\t %p\n", &x.lName);
@@ -69,6 +83,28 @@ int called(struct Students x){
   printf("Address of bMonth:\t %p\n", &x.bMonth);
   printf("Address of bYear:\t %p\n", &x.bYear);
   printf("The address of my birth day and month is at address:\t %p\n", &x.bDay);
+  printf("The integer value of my birth day and month is:\t\t %d\n", 6666);
+
+  printf("\n\n");
+  printf("---Byte by Byte Info---\n");
+  // Finds the decimal value of each byte in x.bDay
+  printf("bDay byte by byte info\n");
+  for (int i = 0; i < sizeof(x.bDay); ++i) {
+  // Convert to unsigned char* because a char is 1 byte in size.
+  // That is guaranteed by the standard.
+  // Note that is it NOT required to be 8 bits in size.
+  unsigned char byte = *((unsigned char *)&x.bDay + i);
+  printf("Byte %d = %u\n", i, (unsigned)byte);
+}
+// Finds the decimal value of each byte in x.bMonth
+printf("bMonth byte by byte info\n");
+for (int i = 0; i < sizeof(x.bMonth); ++i) {
+// Convert to unsigned char* because a char is 1 byte in size.
+// That is guaranteed by the standard.
+// Note that is it NOT required to be 8 bits in size.
+unsigned char byte = *((unsigned char *)&x.bMonth + i);
+printf("Byte %d = %u\n", i, (unsigned)byte);
+}
 
   return 0;
 }
