@@ -11,12 +11,14 @@
 #include<stdio.h>
 #include<stdlib.h> //atoi()
 
+// If i put bday and bmonth as [2], then the address part is fine, but if i print the contents of bday and bmonth then I get a problem because there is no null pointer at the end of the string.
+// If i put bday and bmonth as [3], then it prints the contents of bday and bmonth correct, but it doesnt print the same memory loations as his example.
 struct Students {
    int id;
    char fName[10];
    char lName[10];
-   char bDay[3];
-   char bMonth[3];
+   char bDay[2];
+   char bMonth[2];
    char bYear[5];
 };
 
