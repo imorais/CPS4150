@@ -31,7 +31,7 @@ int main() {
     // testing purposes
     printf("---MAIN---\n");
 
-    struct Students student = {12345, "Isabel", "Morais", "25", "06", "1997"};
+    struct Students student = {12345, "Isabel", "Morais", "01", "07", "1970"};
 
     void *baseptr;
     // takes contents of %ebp and stores in baseptr
@@ -48,9 +48,9 @@ int main() {
     printf("ID:\t\t %d\n", student.id);
     printf("First Name:\t %s\n", student.fName);
     printf("Last Name:\t %s\n", student.lName);
-    printf("Birth Day:\t %s\n", student.bDay);
-    printf("Birth Month:\t %s\n", student.bMonth);
-    printf("Birth Year:\t %s\n", student.bYear);
+    printf("Birth Day:\t %.2s\n", student.bDay);  // .2 formats the char so it only prints the first 2 characters
+    printf("Birth Month:\t %.2s\n", student.bMonth);
+    printf("Birth Year:\t %.4s\n", student.bYear);
     printf("-->Address of main is %p\n", main);
     printf("-->Address of called is %p\n", called);
 
@@ -90,7 +90,16 @@ int called(struct Students x){
   printf("The integer value of my birth day and month is:\t\t %d\n", 6666);
 
   printf("\n");
-  printf("----BYTE BY BYTE INFO----\n");
+  printf("----BYTE BY BYTE INFO1----\n");
+  char *ptrToDay = &x.bDay[0];
+  int *ptrToDayInt = (int*)ptrToDay;
+  printf("*ptrToDay is: %s\n", ptrToDay);
+  printf("*ptrToDay is: %p\n", ptrToDay);
+  printf("*ptrToDayInt is: %d\n", *ptrToDayInt);
+
+  printf("\n");
+  // This is giving me the ascii values for each number, byte by byte. Not what I want.
+  printf("----BYTE BY BYTE INFO2----\n");
   // Finds the decimal value of each byte in x.bDay
   printf("--bDay--\n");
 
