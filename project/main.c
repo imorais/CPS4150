@@ -12,7 +12,7 @@
 #include<stdlib.h> //atoi()
 
 // If i put bday and bmonth as [2], then the address part is fine, but if i print the contents of bday and bmonth then I get a problem because there is no null pointer at the end of the string.
-// If i put bday and bmonth as [3], then it prints the contents of bday and bmonth correct, but it doesnt print the same memory loations as his example.
+// If i put bday and bmonth as [3], then it prints the contents of bday and bmonth correct, but it doesnt print the same memory loations as the example given.
 struct Students {
    int id;
    char fName[10];
@@ -23,7 +23,7 @@ struct Students {
 };
 
 // This must come after the Students struct is created or else it doesn't work.
-int called(struct Students x);
+int called(struct Students x, void *tmp);
 void decToHexa(int n);
 
 int main() {
@@ -54,12 +54,12 @@ int main() {
     printf("-->Address of main is %p\n", main);
     printf("-->Address of called is %p\n", called);
 
-    called(student);
+    called(student, baseptr);
 
   return 0;
 }
 
-int called(struct Students x){
+int called(struct Students x, void *tmp){
 
   // testing purposes
   printf("\n---CALLED---\n");
@@ -102,7 +102,20 @@ int called(struct Students x){
 
   printf("\n");
   printf("----FINDING BASEPOINTER OF MAIN IN CALLED----\n");
-  printf("This value is: %p\n", baseptr2);
+  printf("This value1 is: %p\n", &main);
+  printf("This value2 is: %p\n", main);
+
+  char *ptr1 = (char*)main;
+  int *ptr2 = (int*)ptr1;
+  printf("This value3 is: %p\n", ptr1);
+  printf("This value4 is: %p\n", &ptr1);
+  printf("This value5 is: %c\n", *ptr1);
+  printf("This value6 is: %s\n", ptr1);
+  printf("This value7 is: %p\n", ptr2);
+  printf("This value8 is: %p\n", &ptr2);
+  printf("This value9 is: %c\n", *ptr2);
+  printf("This value10 is: %c\n", (int)ptr2);
+  printf("Value11 is: %p\n", tmp);
 
   return 0;
 }
@@ -111,7 +124,7 @@ int called(struct Students x){
 void decToHexa(int n)
 {
     // char array to store hexadecimal number
-    char hexaDeciNum[100];
+    char hexaDeciNum[15];
 
     // counter for hexadecimal number array
     int i = 0;
