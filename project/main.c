@@ -1,5 +1,5 @@
 // Program name: main.c
-// Purpose: This innitializes a struct that conains some simple student informaion. The mmain function will call the //"called" function and pass the struct as an argument. The main function will also contain in-line assembler code to obtain and print the base pointer for the main function.
+// Purpose: This innitializes a struct that conains some simple student informaion. The main function will call the //"called" function and pass the struct as an argument. The main function will also contain in-line assembler code to obtain and print the base pointer for the main function.
 // Date: 11-25-2018
 // Compile: gcc -o main main.c -m32
 
@@ -24,7 +24,7 @@ struct Students {
 
 // This must come after the Students struct is created or else it doesn't work.
 int called(struct Students x);
-int toBin(int dno);
+void decToHexa(int n);
 
 int main() {
 
@@ -75,7 +75,7 @@ int called(struct Students x){
   asm("movl %%ebp, %0;": "=r"(baseptr2));
 
   //This value is supposed to be the same value as the value for basepointer main in above
-  printf("The value of basepointer address is:\t %p\n", baseptr2);
+  printf("The value at basepointer address is:\t %p\n", baseptr2);
 
   printf("What is in baseptr:\t\t\t %p\n", main);
 
@@ -86,61 +86,60 @@ int called(struct Students x){
   printf("Address of bDay:\t %p\n", &x.bDay);
   printf("Address of bMonth:\t %p\n", &x.bMonth);
   printf("Address of bYear:\t %p\n", &x.bYear);
-  printf("The address of my birth day and month is at address:\t %p\n", &x.bDay);
-  printf("The integer value of my birth day and month is:\t\t %d\n", 6666);
 
-  printf("\n");
-  printf("----BYTE BY BYTE INFO1----\n");
   char *ptrToDay = &x.bDay[0];
   int *ptrToDayInt = (int*)ptrToDay;
+  printf("The address of my birth day and month is at address:\t %p\n", &x.bDay);
+  printf("The integer value of my birth day and month is:\t\t %d\n", *ptrToDayInt);
+
+  printf("\n");
+  printf("----BYTE BY BYTE INFO----\n");
   printf("*ptrToDay is: %s\n", ptrToDay);
   printf("*ptrToDay is: %p\n", ptrToDay);
   printf("*ptrToDayInt is: %d\n", *ptrToDayInt);
+  printf("The hex value of the int value above is: ");
+  decToHexa(*ptrToDayInt);printf("\n");
 
   printf("\n");
-  // This is giving me the ascii values for each number, byte by byte. Not what I want.
-  printf("----BYTE BY BYTE INFO2----\n");
-  // Finds the decimal value of each byte in x.bDay
-  printf("--bDay--\n");
-
-  char numsAsChar[] = "";
-  for (int i = 0; i < sizeof(x.bDay); ++i) {
-    // Convert to unsigned char* because a char is 1 byte in size.
-    // That is guaranteed by the standard.
-    // Note that is it NOT required to be 8 bits in size.
-    unsigned char byte = *((unsigned char *)&x.bDay + i);
-    printf("Byte %d = %u\n", i, (unsigned)byte);
-    numsAsChar[i] = byte;
-    printf("->Char representaion of what is at byte %d: %c\n", i, numsAsChar[i]);
-    int x;
-    // Converts the character into an int and stores it in x
-    x = atoi(&numsAsChar[i]);
-    printf("->Decimal representaion of what is at byte %d: %d\n", i, x);
-    printf("->Binary representaion of what is at byte %d: %04d\n", i, toBin(x));
-  }
-  // Finds the decimal value of each byte in x.bMonth
-  printf("--bMonth--\n");
-  for (int i = 0; i < sizeof(x.bMonth); ++i) {
-    // Convert to unsigned char* because a char is 1 byte in size.
-    // That is guaranteed by the standard.
-    // Note that is it NOT required to be 8 bits in size.
-    unsigned char byte = *((unsigned char *)&x.bMonth + i);
-    printf("Byte %d = %u\n", i, (unsigned)byte);
-  }
+  printf("----FINDING BASEPOINTER OF MAIN IN CALLED----\n");
+  printf("This value is: %p\n", baseptr2);
 
   return 0;
 }
 
-// Convert into to binary
-int toBin(int dno)
+// function to convert decimal to hexadecimal. Used for assurance that int vale of birthday and month is correct.
+void decToHexa(int n)
 {
-    int bno=0,remainder,f=1;
-    while(dno != 0)
+    // char array to store hexadecimal number
+    char hexaDeciNum[100];
+
+    // counter for hexadecimal number array
+    int i = 0;
+    while(n!=0)
     {
-         remainder = dno % 2;
-         bno = bno + remainder * f;
-         f = f * 10;
-         dno = dno / 2;
+        // temporary variable to store remainder
+        int temp  = 0;
+
+        // storing remainder in temp variable.
+        temp = n % 16;
+
+        // check if temp < 10
+        if(temp < 10)
+        {
+            hexaDeciNum[i] = temp + 48;
+            i++;
+        }
+        else
+        {
+            hexaDeciNum[i] = temp + 55;
+            i++;
+        }
+
+        n = n/16;
     }
-    return bno;
+
+    // printing hexadecimal number array in reverse order
+    for(int j=i-1; j>=0; j--)
+        //cout << hexaDeciNum[j];
+        printf("%c", hexaDeciNum[j]);
 }
