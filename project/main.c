@@ -42,7 +42,7 @@ int main() {
     void *stackptr;
     // takes contents of %esp and stores in stackptr
     asm("movl %%esp, %0;": "=r"(stackptr));
-    printf("(?)-->The value of stackpointer is:\t %p\n", stackptr);
+    printf("(Extra Credit)-->The value of stackpointer is:\t %p\n", stackptr);
 
     // print student info
     printf("ID:\t\t %d\n", student.id);
@@ -75,7 +75,7 @@ int called(struct Students x, void *tmp){
   asm("movl %%ebp, %0;": "=r"(baseptr2));
 
   //This value is supposed to be the same value as the value for basepointer main in above
-  printf("The value at basepointer address is:\t %p\n", baseptr2);
+  printf("The value at basepointer address is:\t %p\n", tmp);
 
   printf("What is in baseptr:\t\t\t %p\n", main);
 
@@ -95,27 +95,10 @@ int called(struct Students x, void *tmp){
   printf("\n");
   printf("----BYTE BY BYTE INFO----\n");
   printf("*ptrToDay is: %s\n", ptrToDay);
-  printf("*ptrToDay is: %p\n", ptrToDay);
-  printf("*ptrToDayInt is: %d\n", *ptrToDayInt);
+  printf("*ptrToDay (Address of bDay) is: %p\n", ptrToDay);
+  printf("*ptrToDayInt (Integer value of bDay) is: %d\n", *ptrToDayInt);
   printf("The hex value of the int value above is: ");
   decToHexa(*ptrToDayInt);printf("\n");
-
-  printf("\n");
-  printf("----FINDING BASEPOINTER OF MAIN IN CALLED----\n");
-  printf("This value1 is: %p\n", &main);
-  printf("This value2 is: %p\n", main);
-
-  char *ptr1 = (char*)main;
-  int *ptr2 = (int*)ptr1;
-  printf("This value3 is: %p\n", ptr1);
-  printf("This value4 is: %p\n", &ptr1);
-  printf("This value5 is: %c\n", *ptr1);
-  printf("This value6 is: %s\n", ptr1);
-  printf("This value7 is: %p\n", ptr2);
-  printf("This value8 is: %p\n", &ptr2);
-  printf("This value9 is: %c\n", *ptr2);
-  printf("This value10 is: %c\n", (int)ptr2);
-  printf("Value11 is: %p\n", tmp);
 
   return 0;
 }
