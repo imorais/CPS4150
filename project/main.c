@@ -51,8 +51,6 @@ int main() {
     printf("Birth Day:\t %.2s\n", student.bDay);  // .2 formats the char so it only prints the first 2 characters
     printf("Birth Month:\t %.2s\n", student.bMonth);
     printf("Birth Year:\t %.4s\n", student.bYear);
-    printf("-->Address of main is %p\n", main);
-    printf("-->Address of called is %p\n", called);
 
     called(student, baseptr);
 
@@ -70,16 +68,13 @@ int called(struct Students x, void *tmp){
 
   printf("The value of basepointer print is:\t %p\n", baseptr);
 
-  void *baseptr2;
-  // takes contents of %ebp and stores in baseptr2
-  asm("movl %%ebp, %0;": "=r"(baseptr2));
+  // void *baseptr2;
+  // // takes contents of %ebp and stores in baseptr2
+  // asm("movl %%ebp, %0;": "=r"(baseptr2));
 
   //This value is supposed to be the same value as the value for basepointer main in above
   printf("The value at basepointer address is:\t %p\n", tmp);
-
-  printf("What is in baseptr:\t\t\t %p\n", main);
-
-  printf("-----Student Info-----\n");
+  
   printf("Address of id:\t\t %p\n", &x.id);
   printf("Address of fName:\t %p\n", &x.fName);
   printf("Address of lName:\t %p\n", &x.lName);
@@ -94,7 +89,7 @@ int called(struct Students x, void *tmp){
 
   printf("\n");
   printf("----BYTE BY BYTE INFO----\n");
-  printf("*ptrToDay is: %s\n", ptrToDay);
+  printf("*ptrToDay as a string is: %s\n", ptrToDay);
   printf("*ptrToDay (Address of bDay) is: %p\n", ptrToDay);
   printf("*ptrToDayInt (Integer value of bDay) is: %d\n", *ptrToDayInt);
   printf("The hex value of the int value above is: ");
