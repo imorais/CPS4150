@@ -7,12 +7,9 @@
 // Class: CPS4150-01
 // Assignment: Project
 
-
 #include<stdio.h>
 #include<stdlib.h> //atoi()
 
-// If i put bday and bmonth as [2], then the address part is fine, but if i print the contents of bday and bmonth then I get a problem because there is no null pointer at the end of the string.
-// If i put bday and bmonth as [3], then it prints the contents of bday and bmonth correct, but it doesnt print the same memory loations as the example given.
 struct Students {
    int id;
    char fName[10];
@@ -21,17 +18,15 @@ struct Students {
    char bMonth[2];
    char bYear[5];
 };
-
 // This must come after the Students struct is created or else it doesn't work.
 int called(struct Students x, void *tmp);
 void decToHexa(int n);
 
 int main() {
-
-    // testing purposes
+    // Clarification line
     printf("---MAIN---\n");
 
-    struct Students student = {12345, "Isabel", "Morais", "01", "07", "1970"};
+    struct Students student = {12345, "Isabel", "Morais", "25", "06", "1997"};
 
     void *baseptr;
     // takes contents of %ebp and stores in baseptr
@@ -59,22 +54,16 @@ int main() {
 
 int called(struct Students x, void *tmp){
 
-  // testing purposes
+  // Clarification line
   printf("\n---CALLED---\n");
 
   void *baseptr;
   // takes contents of %ebp and stores in baseptr
   asm("movl %%ebp, %0;": "=r"(baseptr));
-
   printf("The value of basepointer print is:\t %p\n", baseptr);
-
-  // void *baseptr2;
-  // // takes contents of %ebp and stores in baseptr2
-  // asm("movl %%ebp, %0;": "=r"(baseptr2));
-
   //This value is supposed to be the same value as the value for basepointer main in above
   printf("The value at basepointer address is:\t %p\n", tmp);
-  
+
   printf("Address of id:\t\t %p\n", &x.id);
   printf("Address of fName:\t %p\n", &x.fName);
   printf("Address of lName:\t %p\n", &x.lName);
@@ -88,7 +77,7 @@ int called(struct Students x, void *tmp){
   printf("The integer value of my birth day and month is:\t\t %d\n", *ptrToDayInt);
 
   printf("\n");
-  printf("----BYTE BY BYTE INFO----\n");
+  printf("----BYTE BY BYTE INFO----\n");  // This segment is for varification
   printf("*ptrToDay as a string is: %s\n", ptrToDay);
   printf("*ptrToDay (Address of bDay) is: %p\n", ptrToDay);
   printf("*ptrToDayInt (Integer value of bDay) is: %d\n", *ptrToDayInt);
@@ -103,17 +92,12 @@ void decToHexa(int n)
 {
     // char array to store hexadecimal number
     char hexaDeciNum[15];
-
     // counter for hexadecimal number array
     int i = 0;
     while(n!=0)
     {
-        // temporary variable to store remainder
-        int temp  = 0;
-
-        // storing remainder in temp variable.
-        temp = n % 16;
-
+        int temp  = 0;  // temporary variable to store remainder
+        temp = n % 16;  // storing remainder in temp variable.
         // check if temp < 10
         if(temp < 10)
         {
@@ -125,10 +109,8 @@ void decToHexa(int n)
             hexaDeciNum[i] = temp + 55;
             i++;
         }
-
         n = n/16;
     }
-
     // printing hexadecimal number array in reverse order
     for(int j=i-1; j>=0; j--)
         //cout << hexaDeciNum[j];
