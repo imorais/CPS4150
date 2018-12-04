@@ -1,5 +1,5 @@
 // Program name: main.c
-// Purpose: This innitializes a struct that conains some simple student informaion. The main function will call the //"called" function and pass the struct as an argument. The main function will also contain in-line assembler code to obtain and print the base pointer for the main function.
+// Purpose: This initializes a struct that contains some simple student information. The main function will call the //"called" function and pass the struct as an argument. The main function will also contain in-line assembler code to obtain and print the base pointer for the main function.
 // Date: 11-25-2018
 // Compile: gcc -o main main.c -m32
 
@@ -8,7 +8,6 @@
 // Assignment: Project
 
 #include<stdio.h>
-#include<stdlib.h> //atoi()
 
 struct Students {
    int id;
